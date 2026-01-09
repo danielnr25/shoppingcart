@@ -30,7 +30,7 @@
 
         <button 
             :disabled="product.stock===0"
-            class="mt-5 bg-gradient-to-r from-blue-600 to-indigo-600 
+            class="mt-5 bg-linear-to-r from-blue-600 to-indigo-600 
              hover:from-indigo-700 hover:to-blue-700 
              disabled:bg-gray-300 disabled:text-gray-500 
              disabled:cursor-not-allowed disabled:shadow-none
