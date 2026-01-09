@@ -19,7 +19,7 @@ export const products = [
     id: 3,
     name: "Smartphone Samsung Galaxy",
     price: 1500,
-    stock: 5,
+    stock: 0,
     category: "Tecnología",
     image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9",
   },
