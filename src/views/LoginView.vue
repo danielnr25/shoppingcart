@@ -60,7 +60,6 @@ const login = async () => {
             location.reload();
         })
     }else{
-        console.log(response)
         toast.error(message.value)
     }
 }

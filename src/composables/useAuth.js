@@ -1,4 +1,4 @@
-import { login } from "@/services/auth.service";
+import { login,register} from "@/services/auth.service";
 import { ref } from "vue";
 
 const isLoading = ref(false);
@@ -9,7 +9,6 @@ const token = ref(localStorage.getItem("token") || null);
 export const useAuth = () => {
     const loginUser = async(credentials) =>{
         try {
-            
             isLoading.value = true;
             const response = await login(credentials);
             token.value = response.token;
@@ -23,12 +22,27 @@ export const useAuth = () => {
         } finally{
             isLoading.value = false;
         }
-    }
+    };
+
+    const registerUser = async (body) =>{
+        try {
+            isLoading.value = true;
+            const data = await register(body);
+            message.value = data.message;
+            return true;
+        } catch (error) {
+            message.value = error.message;
+            return false;
+        } finally{
+            isLoading.value = false;
+        }
+    };
 
     return {
         loginUser,
         message,
         user,
         token,
+        registerUser,
     }
 }

@@ -1,13 +1,26 @@
 <script setup>
 import { ref,onMounted} from 'vue';
 import { toast } from 'vue3-toastify';
+import Cart from '@/components/cart/Cart.vue';
+import { useCart } from '@/composables/useCart';
 const isLoggedIn = ref(false);
 const userLogged = ref("");
 const showMenu = ref(false);
+const showCart = ref(false);
+const { cart,total } = useCart();
 
 // mostrar / ocultar el menú de usuario
 const toggleMenu = () =>{
     showMenu.value = !showMenu.value;
+}
+
+// mostrar / ocultar el carrito
+const toggleCart = () =>{
+    showCart.value = !showCart.value;
+}
+
+const closeCart = () =>{
+    showCart.value = false;
 }
 
 onMounted(() => {
@@ -41,7 +54,7 @@ const logout = () =>{
             </h1>
         </router-link>
         <div class="flex items-center gap-6 relative">
-           <button class="relative">
+           <button class="relative" @click="toggleCart">
                 <i class="fa-solid fa-cart-shopping text-xl text-gray-700 cursor-pointer hover:text-blue-600 transition-colors"></i>
                 <span class="absolute -top-3 -right-2 bg-red-500 text-white rounded-full px-1.5 text-xs py-0.5 font-bold">
                     0
@@ -78,5 +91,19 @@ const logout = () =>{
             </router-link>
         </div>
     </nav>
+
+    <!-- carrito -->
+    <div
+        v-if="showCart"
+        class="fixed inset-0 bg-black/40 z-40"
+        @click.self="closeCart"
+    >
+
+    </div>
+    <cart 
+        v-if="showCart" 
+        :cart="cart"
+        :total="total"
+    />
 </template>
 
