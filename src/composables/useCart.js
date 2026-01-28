@@ -16,9 +16,19 @@ export function useCart() {
         toast.success("Producto agregado al carrito")
     }
 
+    const removeFromCart = (id) =>{
+        cart.value = cart.value.filter((item)=> item.id !== id) 
+        toast.info("Producto eliminado del carrito")
+    }
+
     // computed: es una propiedad calculada, que se recalcula automaticamente cuando cambia sus dependencias reactivas (ref, reactive, props)
     const total = computed(()=>
         cart.value.reduce((acc,item) => acc + item.precio * item.quantity,0)
+    );
+
+    // contador de items en el carrito
+    const count = computed(()=>
+        cart.value.reduce((acc,item) => acc + item.quantity,0)
     );
 
     // watch: vigilar un valor reactivo (ref, reactive, computed, props) y ejecutar una funcion cuando cambia
@@ -37,7 +47,5 @@ export function useCart() {
     {deep:true}
     );
 
-
-    console.log(total)
-    return { addToCart,cart,total}
+    return { addToCart,cart,total,count,removeFromCart}
 }

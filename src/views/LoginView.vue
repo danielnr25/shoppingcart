@@ -55,7 +55,7 @@ const login = async () => {
     }
     const response = await loginUser(data);
     if(response == true){
-        localStorage.setItem("user",JSON.stringify({username: username.value}));
+        localStorage.setItem("user",JSON.stringify(user.value));
         router.push("/").then(()=>{
             location.reload();
         })

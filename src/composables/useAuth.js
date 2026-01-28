@@ -13,7 +13,7 @@ export const useAuth = () => {
             const response = await login(credentials);
             token.value = response.token;
             user.value = response.data;
-            localStorage.setItem("token",response.token)
+            localStorage.setItem("token",response.token);
             message.value = response.message;
             return true;
         } catch (error) {
