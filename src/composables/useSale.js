@@ -1,11 +1,11 @@
-import { storesale } from "@/services/sales.service";
+import { storesale, getSalesByUser } from "@/services/sales.service";
 import { ref } from "vue";
 
 export const useSale = () => {
     const isLoading = ref(false);
     const message = ref("");
 
-    const createSale = async({ usuario_id, cart, total }) => {
+    const createSale = async ({ usuario_id, cart, total }) => {
         isLoading.value = true;
         try {
             const detalles = cart.map((item) => ({
@@ -28,9 +28,23 @@ export const useSale = () => {
         }
     }
 
+    const getSaleByUser = async (id) => {
+        isLoading.value = true;
+        try {
+            const response = await getSalesByUser(id);
+            message.value = response.message;
+            return response;
+        } catch (error) {
+            message.value = error.message
+            return false;
+        } finally {
+            isLoading.value = false;
+        }
+    }
 
     return {
         createSale,
+        getSaleByUser,
         message,
         isLoading
     }

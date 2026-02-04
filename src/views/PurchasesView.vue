@@ -10,32 +10,32 @@
                 class="bg-white shadow-md rounded-xl p-6 border border-gray-100">
                 <div class="flex justify-between items-center mb-3">
                     <h2 class="text-lg font-semibold text-gray-800">
-                        Pedido #{{ index + 1 }}
+                        Pedido #{{ purchase.venta_id }}
                     </h2>
                     <span class="text-sm text-gray-500">
-                        Fecha: {{ purchase.date }}
+                        Fecha: {{ formateDate(purchase.fecha) }}
                     </span>
                 </div>
 
                 <div class="divide-y divide-gray-200">
-                    <div v-for="item in purchase.items" :key="item.id" class="flex justify-between py-3">
+                    <div v-for="item in purchase.details" :key="item.id" class="flex justify-between py-3">
                         <div class="flex items-center gap-3">
                             <img :src="item.imagen" alt="" class="h-12 w-12 rounded-md object-cover border" />
                             <div>
-                                <p class="font-medium text-gray-800">{{ item.nombre }}</p>
+                                <p class="font-medium text-gray-800">{{ item.producto }}</p>
                                 <p class="text-sm text-gray-500">
-                                    S/ {{ item.precio }} x {{ item.quantity }}
+                                    S/ {{ item.precio_unitario }} x {{ item.cantidad }}
                                 </p>
                             </div>
                         </div>
                         <p class="font-semibold text-gray-700">
-                            S/ {{ (item.precio * item.quantity).toFixed(2) }}
+                            S/ {{ (item.precio_unitario * item.cantidad).toFixed(2) }}
                         </p>
                     </div>
                 </div>
 
                 <div class="text-right font-bold text-lg mt-4">
-                    Total: S/ {{ (purchase.total).toFixed(2) }}
+                    Total: S/ {{ purchase.total }}
                 </div>
             </div>
         </div>
@@ -45,14 +45,15 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useSale } from '@/composables/useSale';
+import { formateDate } from '@/utils/formateDate';
+const { getSaleByUser } = useSale();
 const purchases = ref([]);
-
-console.log(purchases)
-
-onMounted(() => {
-    const stored = localStorage.getItem("purchases");
-    if (stored) {
-        purchases.value = JSON.parse(stored)
+onMounted(async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const response = await getSaleByUser(user.id);
+    if (response) {
+        purchases.value = response;
     }
 })
 

@@ -9,3 +9,12 @@ export const storesale = async (payload) => {
         throw new Error('Error: ' + error.response.data.message);
     }
 }
+
+export const getSalesByUser = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/user/${id}`);
+        return response.data;
+    } catch (error) {
+        throw new Error('Error: ' + error.response.data.message);
+    }
+}
